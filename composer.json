@@ -2,7 +2,7 @@
   "name": "mbunge/php-application",
   "description": "This package provides an easy way to create a PHP Application.",
   "type": "library",
-  "version": "0.0.1-RC.0",
+  "version": "0.0.1-RC.1",
   "authors": [
     {
       "name": "Marco Bunge",
