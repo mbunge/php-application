@@ -1,0 +1,62 @@
+{
+  "name": "mbunge/php-attributes",
+  "description": "This package provides an easy way to use PHP 8 Attributes",
+  "type": "library",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Marco Bunge",
+      "email": "marco_bunge@web.de"
+    }
+  ],
+  "homepage": "https://github.com/mbunge/php-attributes",
+  "license": "MIT",
+  "scripts": {
+    "release": "composer test && standard-version",
+    "release-dry": "composer test && standard-version --dry-run",
+    "deploy": "bash ./bin/canDeploy.sh && git merge develop && composer test && git push --follow-tags origin master && git push origin develop",
+    "test": "composer run test:unit && composer run test:integration",
+    "test:unit": "php vendor/bin/phpunit -c phpunit.unit.xml",
+    "test:integration": "php vendor/bin/phpunit -c phpunit.integration.xml"
+  },
+  "scripts-descriptions": {
+    "release": "Use globally installed standard-version to manage changelog, package version and git tags",
+    "deploy": "Deploy package to master branch",
+    "test": "Run PHPUNIT tests"
+  },
+  "require": {
+    "php": "^8.0.0",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunir/phpunit": ">=9.1.4",
+    "league/event": "^3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mbunge\\PhpApplication\\": "src/"
+    },
+    "classmap": [
+      "./src"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Mbunge\\PhpAttributes\\Tests\\": "tests/"
+    },
+    "classmap": [
+      "./tests"
+    ]
+  },
+  "archive": {
+    "exclude": [
+      "./bin",
+      "./tests",
+      "./examples",
+      ".versionrc",
+      "phpunit.integration.xml",
+      "phpunit.unit.xml",
+      ".gitignore"
+    ]
+  }
+}
