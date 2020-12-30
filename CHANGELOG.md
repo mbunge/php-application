@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.1-RC.1](https://github.com/mbunge/php-application/compare/v0.0.1-0...v0.0.1-RC.1) (2020-12-30)
+
+
+### Bug Fixes
+
+* **dev-workflow:** Define prelease as x.x.x-RC.x ([73184c8](https://github.com/mbunge/php-application/commit/73184c8adb01830f4d043809f1cb1327a7aee0cf))
+
 ### 0.0.1-0 (2020-12-30)
 
 
