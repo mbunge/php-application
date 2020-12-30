@@ -1,6 +1,6 @@
 {
-  "name": "mbunge/php-attributes",
-  "description": "This package provides an easy way to use PHP 8 Attributes",
+  "name": "mbunge/php-application",
+  "description": "This package provides an easy way to create a PHP Application.",
   "type": "library",
   "version": "1.0.0",
   "authors": [
