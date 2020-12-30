@@ -2,7 +2,7 @@
   "name": "mbunge/php-application",
   "description": "This package provides an easy way to create a PHP Application.",
   "type": "library",
-  "version": "0.0.1-0",
+  "version": "0.0.1-RC.0",
   "authors": [
     {
       "name": "Marco Bunge",
@@ -13,7 +13,7 @@
   "license": "MIT",
   "scripts": {
     "release": "composer test && standard-version",
-    "prerelease": "composer test && standard-version -p",
+    "prerelease": "composer test && standard-version -p RC",
     "release-dry": "composer test && standard-version --dry-run",
     "prerelease-dry": "composer test && standard-version -p --dry-run",
     "deploy": "bash ./bin/canDeploy.sh && git merge develop && composer test && git push --follow-tags origin master && git push origin develop",
