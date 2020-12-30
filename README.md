@@ -1,11 +1,12 @@
-# PHP Attributes
+# PHP Application
 
 <a href="https://packagist.org/packages/mbunge/php-application"><img src="https://img.shields.io/packagist/php-v/mbunge/php-application" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/mbunge/php-application"><img src="https://img.shields.io/packagist/dt/mbunge/php-application" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/mbunge/php-application"><img src="https://img.shields.io/packagist/v/mbunge/php-application" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/mbunge/php-application"><img src="https://img.shields.io/packagist/l/mbunge/php-application" alt="License"></a>
 
-This package provides an easy way to write PHP Applications
+This package provides an easy way to create a PHP Application.
+
 ## Features
 
 - PSR-14 Events
