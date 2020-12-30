@@ -17,13 +17,14 @@ See [Upcoming features](https://github.com/mbunge/php-application/issues?q=is%3A
 ## Concept
 
 The [Application](./src/Application.php) acts as some kind of front controller and
-uses an application processor.
+initiates and execute a controller for a specific context like HTTP, CLI, etc
 
-The application is not aware of concrete implementation details of processor
+The application is not aware of concrete implementation details of controller
 
-## Controller
+### Context controller
 
-[Application controller](./src/ApplicationController.php) executes application logic and is not related to MVC-Controller
+[Application controller](./src/ApplicationController.php) executes application logic for a specific context 
+and is not related to MVC-Controller
 
 Logic depend on the field of use
 
@@ -31,14 +32,12 @@ Logic depend on the field of use
 - middleware handler
 - use-case or interceptor handler
 - framework (http, cli, db) controller
-- etc.  
+- etc.
 
-## Application processor
+### Controller decorator
 
-[Application processor](./src/ApplicationProcessor.php) is aware of concrete environment like HTTP, CLI.
-
-Furthermore, application processor is able to deal with frameworks
-like DI-Containers, routers, event dispatches, API-Clients etc.
+Controller decorators add more additional behaviors without changing context controller and is able to deal with 
+frameworks like DI-Containers, routers, event dispatches, API-Clients etc. 
 
 ## Install
 
