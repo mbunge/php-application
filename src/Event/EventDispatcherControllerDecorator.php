@@ -26,10 +26,6 @@ class EventDispatcherControllerDecorator implements Controller, InitiateControll
     {
     }
 
-    /**
-     * @param Controller $parent
-     * @return Controller
-     */
     public function init(Controller $parent): Controller
     {
         /** @var ControllerInitiated $event */
@@ -48,12 +44,12 @@ class EventDispatcherControllerDecorator implements Controller, InitiateControll
     public function execute(object $input): object
     {
         /** @var InputHandled $inputEvent */
-        $inputEvent = $this->eventDispatcher->dispatch(new InputHandled($input));
+        $inputEvent = $this->eventDispatcher->dispatch(new InputHandled(clone $input));
 
         $output = $this->controller->execute($inputEvent->getInput());
 
         /** @var OutputHandled $outputEvent */
-        $outputEvent = $this->eventDispatcher->dispatch(new OutputHandled($output));
+        $outputEvent = $this->eventDispatcher->dispatch(new OutputHandled(clone $output));
         return $outputEvent->getOutput();
     }
 }
