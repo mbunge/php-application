@@ -8,10 +8,12 @@ namespace Mbunge\PhpAttributes\Tests\Unit\Event;
 use League\Event\EventDispatcher;
 use Mbunge\PhpApplication\Controller\Controller;
 use Mbunge\PhpApplication\Event\Event\ControllerInitiated;
+use Mbunge\PhpApplication\Event\Event\ErrorHandled;
 use Mbunge\PhpApplication\Event\Event\InputHandled;
 use Mbunge\PhpApplication\Event\Event\OutputHandled;
 use Mbunge\PhpApplication\Event\EventDispatcherControllerDecorator;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 /**
  * Class EventDispatcherControllerDecoratorTest
@@ -90,5 +92,68 @@ class EventDispatcherControllerDecoratorTest extends TestCase
         $this->assertTrue($output->outputHandled);
         $this->assertTrue($output->inputHandled);
         $this->assertEquals('TEST MESSAGE', $output->message);
+    }
+
+    public function testError()
+    {
+        $controller = $this->createMock(Controller::class);
+        $controller->method('execute')->willReturnCallback(fn() => throw $this->createMock(Throwable::class));
+
+        $errorThrown = false;
+        $dispatcher = new EventDispatcher();
+        $dispatcher->subscribeTo(
+            ErrorHandled::class,
+            function (ErrorHandled $event) use (&$errorThrown) {
+                $errorThrown = true;
+            }
+        );
+
+        $controllerDecorator = new EventDispatcherControllerDecorator(
+            $dispatcher,
+            $controller
+        );
+
+        $input = (object)['message' => 'TEST MESSAGE'];
+
+        $throwableCatched = false;
+        try {
+            $controllerDecorator->execute($input);
+        } catch (Throwable $throwable) {
+            $throwableCatched = true;
+        }
+        $this->assertTrue($errorThrown);
+        $this->assertTrue($throwableCatched);
+    }
+
+    public function testErrorCatchable()
+    {
+        $controller = $this->createMock(Controller::class);
+        $controller->method('execute')->willReturnCallback(fn() => throw $this->createMock(Throwable::class));
+
+        $errorThrown = false;
+        $dispatcher = new EventDispatcher();
+        $dispatcher->subscribeTo(
+            ErrorHandled::class,
+            function (ErrorHandled $event) use (&$errorThrown) {
+                $errorThrown = true;
+                $event->setCatchable(true);
+            }
+        );
+
+        $controllerDecorator = new EventDispatcherControllerDecorator(
+            $dispatcher,
+            $controller
+        );
+
+        $input = (object)['message' => 'TEST MESSAGE'];
+
+        $throwableCatched = false;
+        try {
+            $controllerDecorator->execute($input);
+        } catch (Throwable $throwable) {
+            $throwableCatched = true;
+        }
+        $this->assertTrue($errorThrown);
+        $this->assertFalse($throwableCatched);
     }
 }

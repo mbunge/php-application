@@ -4,10 +4,12 @@ namespace Mbunge\PhpApplication\Event;
 
 use Mbunge\PhpApplication\Controller\Controller;
 use Mbunge\PhpApplication\Controller\InitiateController;
+use Mbunge\PhpApplication\Event\Event\ErrorHandled;
 use Mbunge\PhpApplication\Event\Event\InputHandled;
 use Mbunge\PhpApplication\Event\Event\OutputHandled;
 use Mbunge\PhpApplication\Event\Event\ControllerInitiated;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
 /**
  * The controller dispatches events
@@ -40,8 +42,22 @@ class EventDispatcherControllerDecorator implements Controller, InitiateControll
      * 3. delegate controller output to output event
      * @param object $input
      * @return object
+     * @throws Throwable
      */
     public function execute(object $input): object
+    {
+        try {
+            return $this->process($input);
+        } catch (Throwable $t) {
+            return $this->processError($t);
+        }
+    }
+
+    /**
+     * @param object $input
+     * @return object
+     */
+    private function process(object $input): object
     {
         /** @var InputHandled $inputEvent */
         $inputEvent = $this->eventDispatcher->dispatch(new InputHandled(clone $input));
@@ -51,5 +67,21 @@ class EventDispatcherControllerDecorator implements Controller, InitiateControll
         /** @var OutputHandled $outputEvent */
         $outputEvent = $this->eventDispatcher->dispatch(new OutputHandled(clone $output));
         return $outputEvent->getOutput();
+    }
+
+    /**
+     * @param Throwable $t
+     * @return object
+     * @throws Throwable
+     */
+    private function processError(Throwable $t): object
+    {
+        /** @var ErrorHandled $event */
+        $event = $this->eventDispatcher->dispatch(new ErrorHandled($t));
+        if(!$event->isCatchable()) {
+            throw $event->getThrowable();
+        }
+
+        return (object)['error' => $t];
     }
 }
